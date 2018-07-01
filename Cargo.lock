@@ -1,0 +1,4 @@
+[[package]]
+name = "game-of-life-cluster"
+version = "0.1.0"
+

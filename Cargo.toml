@@ -1,6 +1,11 @@
 [package]
-name = "game-of-life-cluster"
-version = "0.1.0"
-authors = ["Dmytro Meleshko <dmytro.meleshko@gmail.com>"]
+name        = "game-of-life-cluster"
+version     = "0.1.0"
+authors     = ["Dmytro Meleshko <dmytro.meleshko@gmail.com>"]
+description = "[EXPERIMENTAL] Game of Life simulator for clusters of computers"
+license     = "MIT"
+repository  = "https://github.com/dmitmel/game-of-life-cluster.git"
+homepage    = "https://github.com/dmitmel/game-of-life-cluster"
+readme      = "README.md"
 
 [dependencies]

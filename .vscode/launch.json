@@ -1,0 +1,30 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug",
+      "cargo": {
+        "args": ["build", "--bin=game-of-life-cluster"]
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "terminal": "external"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug tests",
+      "cargo": {
+        "args": ["test", "--no-run", "--bin=game-of-life-cluster"]
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "terminal": "external"
+    }
+  ]
+}
