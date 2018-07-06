@@ -14,8 +14,8 @@ use rand::Rng;
 type Cell = u8;
 type World = Buffer<Cell>;
 
-static PROGRAM_SOURCE: &str = include_str!("program.cl");
-static KERNEL_NAME: &str = "next_generation";
+const PROGRAM_SOURCE: &str = include_str!("program.cl");
+const KERNEL_NAME: &str = "next_generation";
 
 fn main() -> OclResult<()> {
   let width = 200;
