@@ -9,5 +9,6 @@ homepage    = "https://github.com/dmitmel/game-of-life-cluster"
 readme      = "README.md"
 
 [dependencies]
+clap = "*"
 rand = "*"
 ocl  = "*"
