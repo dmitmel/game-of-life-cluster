@@ -1,8 +1,6 @@
 #![feature(duration_as_u128)]
 
 extern crate clap;
-extern crate ocl;
-extern crate rand;
 
 mod gpu;
 mod master;

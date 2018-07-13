@@ -1,11 +1,11 @@
-use ocl;
-use ocl::{
+extern crate ocl;
+use self::ocl::{
   Buffer, Context, Device, Kernel, Platform, Program, Queue,
   Result as OclResult, SpatialDims,
 };
 
-use rand;
-use rand::Rng;
+extern crate rand;
+use self::rand::Rng;
 
 use std::time::Instant;
 
