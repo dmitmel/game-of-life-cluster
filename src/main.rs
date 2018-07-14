@@ -2,6 +2,8 @@
 
 extern crate clap;
 
+use std::fmt;
+
 mod gpu;
 mod master;
 mod slave;
@@ -42,9 +44,7 @@ fn main() {
       let port_str = master_matches.value_of(PORT_ARG).unwrap();
       let port = parse_port(port_str);
 
-      if let Err(error) = master::listen(port) {
-        clap::Error::from(error).exit();
-      }
+      master::listen(port).unwrap_or_else(|e| handle_error(e))
     }
 
     (SLAVE_COMMAND, Some(slave_matches)) => {
@@ -52,17 +52,12 @@ fn main() {
       let port_str = slave_matches.value_of(PORT_ARG).unwrap();
       let port = parse_port(port_str);
 
-      if let Err(error) = slave::connect(hostname, port) {
-        clap::Error::from(error).exit();
-      }
+      slave::connect(hostname, port).unwrap_or_else(|e| handle_error(e))
     }
 
-    (GPU_COMMAND, Some(_gpu_matches)) => if let Err(error) = gpu::run() {
-      clap::Error::with_description(
-        error.to_string().as_str(),
-        clap::ErrorKind::Io,
-      ).exit();
-    },
+    (GPU_COMMAND, Some(_gpu_matches)) => {
+      gpu::run().unwrap_or_else(|e| handle_error(e))
+    }
 
     _ => unreachable!(),
   }
@@ -75,4 +70,10 @@ fn parse_port(port_str: &str) -> u16 {
       port_str
     )).exit()
   })
+}
+
+fn handle_error<E: fmt::Display>(error: E) -> ! {
+  let description = error.to_string();
+  let error = clap::Error::with_description(&description, clap::ErrorKind::Io);
+  error.exit();
 }
