@@ -2,6 +2,10 @@
 
 extern crate clap;
 
+#[macro_use]
+extern crate log;
+mod logger;
+
 use std::fmt;
 
 mod gpu;
@@ -12,6 +16,9 @@ const APP_NAME: &str = env!("CARGO_PKG_NAME");
 const APP_VERSION: &str = env!("CARGO_PKG_VERSION");
 const APP_AUTHOR: &str = env!("CARGO_PKG_AUTHORS");
 const APP_DESCRIPTION: &str = env!("CARGO_PKG_DESCRIPTION");
+
+const VERBOSE_OPT: &str = "verbose";
+const VERBOSE_OPT_SHORT: &str = "v";
 
 const MASTER_COMMAND: &str = "master";
 const SLAVE_COMMAND: &str = "slave";
@@ -27,9 +34,16 @@ fn main() {
     .version(APP_VERSION)
     .author(APP_AUTHOR)
     .about(APP_DESCRIPTION)
+    .arg(
+      clap::Arg::with_name(VERBOSE_OPT)
+        .short(VERBOSE_OPT_SHORT)
+        .multiple(true)
+        .global(true)
+        .help("Sets the level of verbosity"),
+    )
     .subcommand(
       clap::SubCommand::with_name(MASTER_COMMAND)
-        .arg(clap::Arg::with_name(PORT_ARG).help("port").required(true)),
+        .arg(clap::Arg::with_name(PORT_ARG).required(true)),
     )
     .subcommand(
       clap::SubCommand::with_name(SLAVE_COMMAND)
@@ -38,6 +52,9 @@ fn main() {
     )
     .subcommand(clap::SubCommand::with_name(GPU_COMMAND))
     .get_matches();
+
+  let verbosity = matches.occurrences_of(VERBOSE_OPT);
+  logger::init(verbosity).unwrap_or_else(|e| handle_error(e));
 
   match matches.subcommand() {
     (MASTER_COMMAND, Some(master_matches)) => {
@@ -75,5 +92,5 @@ fn parse_port(port_str: &str) -> u16 {
 fn handle_error<E: fmt::Display>(error: E) -> ! {
   let description = error.to_string();
   let error = clap::Error::with_description(&description, clap::ErrorKind::Io);
-  error.exit();
+  error.exit()
 }
