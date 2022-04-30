@@ -13,6 +13,7 @@ mod cli;
 mod gpu;
 mod master;
 mod slave;
+mod threaded;
 mod utils;
 
 fn main() {
@@ -27,6 +28,7 @@ fn run(options: cli::Options) -> Result<(), Error> {
     cli::Command::Master { port } => master::listen(port)?,
     cli::Command::Slave { hostname, port } => slave::connect(hostname, port)?,
     cli::Command::Gpu => gpu::run()?,
+    cli::Command::Threaded => threaded::run(),
   }
 
   Ok(())

@@ -11,6 +11,7 @@ const VERBOSE_OPT_SHORT: &str = "v";
 const MASTER_COMMAND: &str = "master";
 const SLAVE_COMMAND: &str = "slave";
 const GPU_COMMAND: &str = "gpu";
+const THREADED_COMMAND: &str = "threaded";
 
 const PORT_ARG: &str = "PORT";
 const HOSTNAME_ARG: &str = "HOSTNAME";
@@ -24,6 +25,7 @@ pub enum Command {
   Master { port: u16 },
   Slave { hostname: String, port: u16 },
   Gpu,
+  Threaded,
 }
 
 pub fn get_options() -> clap::Result<Options> {
@@ -50,6 +52,8 @@ pub fn get_options() -> clap::Result<Options> {
     }
 
     (GPU_COMMAND, Some(_gpu_matches)) => Command::Gpu,
+
+    (THREADED_COMMAND, Some(_threaded_matches)) => Command::Threaded,
 
     _ => unreachable!(),
   };
@@ -81,6 +85,7 @@ fn create_parser<'a, 'b>() -> clap::App<'a, 'b> {
         .arg(clap::Arg::with_name(PORT_ARG).required(true)),
     )
     .subcommand(clap::SubCommand::with_name(GPU_COMMAND))
+    .subcommand(clap::SubCommand::with_name(THREADED_COMMAND))
 }
 
 fn parse_port(port_str: &str) -> clap::Result<u16> {
