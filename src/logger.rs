@@ -4,7 +4,7 @@ use super::log;
 extern crate env_logger;
 extern crate pretty_env_logger;
 
-pub fn init(verbosity: u64) -> Result<(), log::SetLoggerError> {
+pub fn init(verbosity: u64) {
   let mut builder = pretty_env_logger::formatted_builder().unwrap();
 
   builder.filter_level(match verbosity {
@@ -21,5 +21,5 @@ pub fn init(verbosity: u64) -> Result<(), log::SetLoggerError> {
     builder.parse_write_style(&s);
   }
 
-  builder.try_init()
+  builder.init()
 }
