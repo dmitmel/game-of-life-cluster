@@ -12,6 +12,7 @@ mod cli;
 mod gpu;
 mod master;
 mod slave;
+mod utils;
 
 fn main() {
   match cli::get_options() {
